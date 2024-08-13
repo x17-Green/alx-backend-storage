@@ -15,18 +15,13 @@ def top_students(mongo_collection):
     Returns:
     - List of students sorted by average score with key = averageScore
     """
-    pipeline = [
-        {
-            "$project": {
-                "name": 1,
-                "averageScore": {"$avg": "$scores.score"}
-            }
-        },
-        {
-            "$sort": {"averageScore": -1}
-        }
-    ]
-    return list(mongo_collection.aggregate(pipeline))
+    return mongo_collection.aggregate([
+        {"$project": {
+            "name": "$name",
+            "averageScore": {"$avg": "$topics.score"}
+        }},
+        {"$sort": {"averageScore": -1}}
+    ])
 
 if __name__ == "__main__":
     client = MongoClient('mongodb://localhost:27017/')
