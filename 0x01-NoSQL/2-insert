@@ -1,0 +1,2 @@
+// 2. a script that creates a new collection
+db.createCollection("school") 
